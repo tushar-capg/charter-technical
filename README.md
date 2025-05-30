@@ -30,11 +30,14 @@ This system calculates monthly reward points per customer over the last three mo
 ---
 
 ## API Endpoints
-| Method |            Endpoint 	 		|         Description 		   |
-|--------|--------------------------------------|----------------------------------|
-| GET 	 | {Base Url}/api/v1/reward/{customerId}| Get reward points for a customer |
-| POST 	 | {Base Url}/api/v1/reward/purchase	| create purchase   		   |
+| Method |            Endpoint 	 		|                 Description 	   	  	|
+|--------|--------------------------------------|-----------------------------------------------|
+| GET 	 | {Base Url}/api/v1/reward/{customerId}| Get reward points for a customer 	  	|
+| GET 	 | {Base Url}/api/v1/reward/getAll	| Get all the purchase records for last 3 months|
+| POST 	 | {Base Url}/api/v1/reward/purchase	| create purchase record	   	  	|
+
 
 ## Other Details
 - Sample data is hadrcoded and written in RewardApplication.java file and It will be created once the application is UP.
 - Sample test data also created in the RewardApplication.java file for positive and negative scenario.
+- All get API's will give purchase records for past three months only.

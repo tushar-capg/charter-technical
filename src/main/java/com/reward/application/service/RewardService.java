@@ -146,11 +146,12 @@ public class RewardService {
 		if (objList.isPresent() && !objList.get().isEmpty()) {
 			try {
 				Map<Long, List<PurchaseDAO>> map = objList.get().stream().collect(Collectors.groupingBy(x -> x.getCustId()));
+				System.out.println(map);
 				for(Map.Entry<Long, List<PurchaseDAO>> entry : map.entrySet()) {
 					RewardResponse response = new RewardResponse();
 					response.setCustId(entry.getValue().get(0).getCustId());
 					response.setCustomerName(entry.getValue().get(0).getCustomerName());
-					entry.getValue().stream().map(i->{
+					for(PurchaseDAO i : entry.getValue()) {
 						List<MonthWiseReward> monthWiseRewardsList = response.getMonthWiseRewards();
 						MonthWiseReward monthWiseRewards = new MonthWiseReward();
 						monthWiseRewards.setMonth(MonthsEnum.getMonth(i.getCreatedDt().getMonth() + 1));
@@ -169,11 +170,10 @@ public class RewardService {
 						monthWiseRewardsList.add(monthWiseRewards);
 
 						response.setMonthWiseRewards(monthWiseRewardsList);
-						response.setTotalRewards(response.getMonthWiseRewards().stream()
-								.mapToInt(MonthWiseReward::getTotalMonthlyRewards).sum());
-						rewardResList.add(response);
-						return response;
-					});
+					}
+					response.setTotalRewards(response.getMonthWiseRewards().stream()
+							.mapToInt(MonthWiseReward::getTotalMonthlyRewards).sum());
+					rewardResList.add(response);
 				}
 			} catch (Exception e) {
 				// log exception
@@ -181,7 +181,7 @@ public class RewardService {
 			}
 		} else {
 			throw new IllegalArgumentException(
-					"Invalid customer ID provided, no matching record found for customer ID: ");
+					"No records found!");
 		}
 		return rewardResList;
 	}
